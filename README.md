@@ -13,6 +13,8 @@
 ##### Humidity in percentage
 ##### Pressure in hectopascal (hPa)
 
+
+
 ### The second part relates to the hourly and daily forecast regarding the:
 ##### Minimum and Maximum Temperature in degrees
 ##### The total rain in millimeters (mm) and the probability in percentage
