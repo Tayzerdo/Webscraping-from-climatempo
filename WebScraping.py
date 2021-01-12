@@ -15,7 +15,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from datetime import datetime
-print("libraries imported")
+# print("libraries imported")
 
 #Make the request
 html = requests.get("https://www.climatempo.com.br/previsao-do-tempo/agora/cidade/321/riodejaneiro-rj").content
@@ -24,21 +24,24 @@ now = BS(html, "lxml")
 html = requests.get("https://www.climatempo.com.br/previsao-do-tempo/cidade/321/riodejaneiro-rj/").content
 today = BS(html, "lxml")
 
-
+print("---------------------------")
 #STEP 1 - Take the information for now
 timenow = datetime.now()
 print("The time for now is: ",timenow.hour, ':', timenow.minute)
 instant = list(now.find("div", class_="card _justify-center").text.split("\n"))
 instant= list(filter(None,instant))
-print(instant)
-print("---------")
-
+# print(instant)
+print(f'The temperature is {instant[1]} with the thermal sensation {instant[3][-3:]}')
+print(f'The wind has the direction and velocity equals to {instant[5]}')
+print(f'The humidity is {instant[7]}')
+print(f'The pressure is {instant[9]}')
 
 
 print("---------------------------")
 #STEP 2 - Take the general forecast for the day
 info = today.find_all("ul", class_="variables-list")[0]
-print("---------")
+# print(info)
+# print("---------")
 
 ##Check the date
 timestamp = today.find("h1",class_="-bold -font-18 -dark-blue _margin-r-10 _margin-b-sm-5").text
@@ -74,7 +77,6 @@ humMin = hum[1].text
 humMax = hum[3].text
 print(f'The minimum humidity is: {humMin}')
 print(f'The maximum humidity is: {humMax}')
-
 print("---------")
 
 sun = info.find_all(class_="item")[4]
@@ -84,7 +86,6 @@ sunrise = suntime[0]
 sunset = suntime[1]
 print(f'The sunrise it will be at: {sunrise}')
 print(f'The sunset it will be at: {sunset}')
-
 
 print("---------------------------")
 #STEP 3 - Take the hourly forecast
@@ -116,8 +117,8 @@ tableInfo[["Hour","Humidity","Precipitation","Temperature","Wind","humMin","humM
         "Humidity","Precipitation","Temperature","Wind","humMin","humMax","rainyMil","tempMin","tempMax","windVelo"]].apply(pd.to_numeric)
 tableInfo["PrecipitationAccumulative"] = tableInfo["Precipitation"].cumsum()
 
-print(tableInfo.dtypes)
-print(tableInfo.head(0))
+# print(tableInfo.dtypes)
+# print(tableInfo.head(0))
 
 ##Save the table in excel file
 tableInfo.to_excel("Table info.xlsx")
