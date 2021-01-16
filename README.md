@@ -22,3 +22,6 @@
 ##### > Minimum and Maximum Humidity in percentage
 ##### > Sunrise and Sunset hour
 
+### The hourly forecast can be seen from this tableau visualization 
+(example for the day 01/16/2021
+https://public.tableau.com/profile/tayzer.damasceno.de.oliveira#!/vizhome/Dailyforecast/Painel1?publish=yes
