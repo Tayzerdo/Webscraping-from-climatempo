@@ -27,6 +27,7 @@ today = BS(html, "lxml")
 print("---------------------------")
 #STEP 1 - Take the information for now
 timenow = datetime.now()
+print("Instant information: \n")
 print("The time for now is: ",timenow.hour, ':', timenow.minute)
 instant = list(now.find("div", class_="card _justify-center").text.split("\n"))
 instant= list(filter(None,instant))
@@ -46,6 +47,27 @@ info = today.find_all("ul", class_="variables-list")[0]
 ##Check the date
 timestamp = today.find("h1",class_="-bold -font-18 -dark-blue _margin-r-10 _margin-b-sm-5").text
 print(timestamp)
+print("---------")
+
+##Check the cloud situation
+situation = today.find("div", class_="card -no-top -no-bottom")
+shortInformation = situation.find(class_="col-md-6 col-sm-12").text.splitlines()
+shortInformation = list(filter(None,shortInformation))
+print(shortInformation[0])
+print(shortInformation[1])
+print("---------")
+
+timeDict = {}
+dayTime = ["Dawn", "Morning", "Afternoon","Night"]
+timeADay = situation.find(class_="col-md-6 col-sm-12 _flex _space-between _margin-t-sm-20")
+infoTime = [img["alt"] for img in timeADay.select("img[alt]")]
+
+for i in range(0,len(dayTime)):
+    timeDict[dayTime[i]] = infoTime[i]
+print(f'At the Dawn --> {timeDict["Dawn"]}')
+print(f'At the Morning --> {timeDict["Morning"]}')
+print(f'At the Afternoon --> {timeDict["Afternoon"]}')
+print(f'At the Dawn --> {timeDict["Dawn"]}')
 print("---------")
 
 ##Extract the minumum and maximum temperature
@@ -117,7 +139,7 @@ tableInfo[["Hour","Humidity","Precipitation","Temperature","Wind","humMin","humM
         "Humidity","Precipitation","Temperature","Wind","humMin","humMax","rainyMil","tempMin","tempMax","windVelo"]].apply(pd.to_numeric)
 tableInfo["PrecipitationAccumulative"] = tableInfo["Precipitation"].cumsum()
 
-# print(tableInfo.dtypes)
+# print(tableInfo)
 # print(tableInfo.head(0))
 
 ##Save the table in excel file
@@ -148,3 +170,22 @@ tableInfo.to_excel("Table info.xlsx")
 # #plt.bar(tableInfo["Hour"], tableInfo["PrecipitationAccumulative"])
 # plt.xlim(xmin=0,xmax=23)
 # plt.show()
+
+
+
+print("---------------------------")
+#STEP 4 - Take the healthy indicatiors
+print("The indicators are: \n")
+health = today.find(class_="col-lg-4 _margin-t-sm-20")
+healthUpdated = health.find(class_="-gray-2 _flex").text
+
+
+indicators = list(filter(None,health.find(class_="card -no-top").ul.text.splitlines()))
+print(f'> {indicators[0]} --> No information ')
+print(f'> {indicators[1]} --> {indicators[2]} ')
+print(f'> {indicators[3]} --> {indicators[4]} ')
+print(f'> {indicators[5]} --> {indicators[6]} ')
+print(f'> {indicators[7]} --> {indicators[8]} ')
+print(f'> {indicators[9][:11]} --> {indicators[10]} ')
+
+print(f'\nThe indicators were updated at: {healthUpdated}')
