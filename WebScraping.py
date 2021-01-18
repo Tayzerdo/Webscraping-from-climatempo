@@ -109,7 +109,6 @@ sunset = suntime[1]
 print(f'The sunrise it will be at: {sunrise}')
 print(f'The sunset it will be at: {sunset}')
 
-print("---------------------------")
 #STEP 3 - Take the hourly forecast
 hourly = today.find("div",class_="card -no-top")
 forecast = hourly.find(class_="wrapper-chart")["data-infos"]
@@ -145,47 +144,28 @@ tableInfo["PrecipitationAccumulative"] = tableInfo["Precipitation"].cumsum()
 ##Save the table in excel file
 tableInfo.to_excel("Table info.xlsx")
 
-# ##Plot the graphs
-# plt.plot(tableInfo["Hour"], tableInfo["Humidity"], label="forecast", color="black")
-# plt.plot(tableInfo["Hour"], tableInfo["humMin"], label="humMin", color="Lightblue", linestyle="dashed")
-# plt.plot(tableInfo["Hour"], tableInfo["humMax"], label="humMax", color="Lightgreen", linestyle="dashed")
-# plt.title("Forecast Humidity")
-# plt.xlabel("Hour")
-# plt.ylabel("Humidity (%)")
-# plt.xlim(xmin=0,xmax=23)
-# plt.legend()
-# plt.show()
-
-# plt.plot(tableInfo["Hour"], tableInfo["Temperature"], label="Temperature", color="black")
-# plt.plot(tableInfo["Hour"], tableInfo["tempMin"], label="tempMin", color="Lightblue", linestyle="dashed")
-# plt.plot(tableInfo["Hour"], tableInfo["tempMax"], label="tempMax", color="Lightgreen", linestyle="dashed")
-# plt.title("Forecast Temperature")
-# plt.xlabel("Hour")
-# plt.ylabel("Temperature (°)")
-# plt.xlim(xmin=0,xmax=23)
-# plt.legend(loc=1)
-# plt.show()
-
-# plt.bar(tableInfo["Hour"], tableInfo["Precipitation"])
-# #plt.bar(tableInfo["Hour"], tableInfo["PrecipitationAccumulative"])
-# plt.xlim(xmin=0,xmax=23)
-# plt.show()
-
-
-
 print("---------------------------")
 #STEP 4 - Take the healthy indicatiors
 print("The indicators are: \n")
 health = today.find(class_="col-lg-4 _margin-t-sm-20")
 healthUpdated = health.find(class_="-gray-2 _flex").text
 
-
+indicatorsList = ["Previsão de qualidade do ar","Gripe e resfriado","Mosquitos","Raios UV","Ressecamento de pele","Vitamina D - Entenda os benefícios do sol"]
+indicatorDict = {}
 indicators = list(filter(None,health.find(class_="card -no-top").ul.text.splitlines()))
-print(f'> {indicators[0]} --> No information ')
-print(f'> {indicators[1]} --> {indicators[2]} ')
-print(f'> {indicators[3]} --> {indicators[4]} ')
-print(f'> {indicators[5]} --> {indicators[6]} ')
-print(f'> {indicators[7]} --> {indicators[8]} ')
-print(f'> {indicators[9][:11]} --> {indicators[10]} ')
+for i in range(0,len(indicators)):
+    for j in range(0,len(indicatorsList)):
+        if indicators[i] == indicatorsList[j]:
+            if indicators[i+1] not in indicatorsList or indicators[i+1] != " ":
+                indicatorDict[indicatorsList[j]] = indicators[i+1]
+            else:
+                indicatorDict[indicatorsList[j]] = "No information"
+
+for i in indicatorDict:
+    if i == "Vitamina D - Entenda os benefícios do sol":
+        print(f'{i[:10]} --> {indicatorDict[i]}')
+    else: 
+        print(f'{i} --> {indicatorDict[i]}')
+
 
 print(f'\nThe indicators were updated at: {healthUpdated}')
