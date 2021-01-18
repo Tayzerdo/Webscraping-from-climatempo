@@ -22,13 +22,14 @@
 ##### > Minimum and Maximum Humidity in percentage
 ##### > Sunrise and Sunset hour
 
-### The forth part displays the health indicators that are:
+### The fourth part displays the health indicators that are:
 ##### > Air quality forecast
 ##### > Flu and cold
 ##### > Mosquitos
 ##### > UV rays
 ##### > Dry skin
 ##### > Vitamin D
+##### > The last time that was updated
 
 ### The hourly forecast can be seen from this tableau visualization 
 ##### (example for the day 01/16/2021)
