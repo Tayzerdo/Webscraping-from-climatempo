@@ -1,4 +1,4 @@
-# Porject based to use Webscraping with the Beautiful soup tool to extarct information from climatempo
+# Project based to use Webscraping with the Beautiful soup tool to extarct information from climatempo
 
 ### The website is https://www.climatempo.com.br/previsao-do-tempo/cidade/321/riodejaneiro-rj/
 
