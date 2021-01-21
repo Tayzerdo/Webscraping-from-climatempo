@@ -12,9 +12,9 @@ from bs4 import BeautifulSoup as BS
 import requests
 import json
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
 from datetime import datetime
+import sqlite3
+from sqlalchemy import create_engine
 # print("libraries imported")
 
 #Make the request
@@ -169,3 +169,9 @@ for i in indicatorDict:
 
 
 print(f'\nThe indicators were updated at: {healthUpdated}')
+
+#Store on an SQL file
+engine = create_engine('sqlite://', echo=False)
+connection = sqlite3.connect("WeatherDatabase.db")
+tableInfo.to_sql("WeatherDatabase.db",connection)
+connection.close()
