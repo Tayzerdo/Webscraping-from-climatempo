@@ -13,8 +13,6 @@ import requests
 import json
 import pandas as pd
 from datetime import datetime
-import sqlite3
-from sqlalchemy import create_engine
 import schedule #pip install schedule
 import time
 # print("libraries imported")
@@ -169,16 +167,10 @@ def extractInfo():
             print(f'{i[:10]} --> {indicatorDict[i]}')
         else: 
             print(f'{i} --> {indicatorDict[i]}')
-    
-    
     print(f'\nThe indicators were updated at: {healthUpdated}')
-    
-    #Store on an SQL file
-    engine = create_engine('sqlite://', echo=False)
-    connection = sqlite3.connect("WeatherDatabase.db")
-    tableInfo.to_sql("WeatherDatabase.db",connection)
-    connection.close()
 
+
+extractInfo()
 schedule.every().day.at("08:00").do(extractInfo)
 
 while True:
